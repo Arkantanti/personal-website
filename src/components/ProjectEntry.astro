@@ -1,11 +1,12 @@
 ---
 // One project on the timeline spine: mono period rail + node left, body
 // right. Used for both active entries and the folded archive.
+import { externalAttrs } from '../utils/links';
 const { project, Content } = Astro.props;
 const primary = project.data.links[0];
 ---
 
-<article class="tl-entry">
+<article class="tl-entry" id={project.id}>
   <div class="tl-rail">
     <span class="tl-date mono-label">{project.data.period}</span>
     <span
@@ -17,7 +18,7 @@ const primary = project.data.links[0];
     <span class="tl-date-inline mono-label">{project.data.period}</span>
     <h2 class="tl-title">
       {primary ? (
-        <a class="tl-title-link" href={primary.url}>
+        <a class="tl-title-link" href={primary.url} {...externalAttrs(primary.url)}>
           {project.data.title} <span class="tl-ext" aria-hidden="true">↗</span>
         </a>
       ) : (
@@ -38,7 +39,7 @@ const primary = project.data.links[0];
         {project.data.links.map((l, i) => (
           <>
             {i > 0 && ' · '}
-            <a class="tl-link" href={l.url}>
+            <a class="tl-link" href={l.url} {...externalAttrs(l.url)}>
               {l.label} ↗
             </a>
           </>

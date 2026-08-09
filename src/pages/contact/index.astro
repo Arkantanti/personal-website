@@ -1,6 +1,7 @@
 ---
 // Contact — a small, mostly-empty page: one sentence, a few mono links.
 import Base from '../../layouts/Base.astro';
+import { externalAttrs } from '../../utils/links';
 
 const channels = [
   { label: 'email', value: 'kubson.pieczonka@gmail.com', href: 'mailto:kubson.pieczonka@gmail.com' },
@@ -19,7 +20,7 @@ const channels = [
       channels.map((c) => (
         <li class="channel">
           <span class="channel-label mono-label">{c.label}</span>
-          <a class="channel-link" href={c.href}>{c.value}</a>
+          <a class="channel-link" href={c.href} {...externalAttrs(c.href)}>{c.value}</a>
         </li>
       ))
     }

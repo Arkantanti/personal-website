@@ -43,6 +43,25 @@ function rehypeFigureCaptions() {
   return (tree) => walk(tree);
 }
 
+// Links inside Markdown content that leave the site open in a new tab.
+// Mirrors src/utils/links.ts (isExternal): absolute http(s) URLs get
+// target="_blank" + rel="noopener noreferrer"; relative links, in-page
+// anchors and local files are left alone (normal site navigation).
+function rehypeExternalLinks() {
+  const isExternal = (href) => !!href && /^https?:\/\//i.test(href);
+  const walk = (node) => {
+    if (!node.children) return;
+    for (const child of node.children) {
+      if (child.tagName === 'a' && isExternal(child.properties?.href)) {
+        child.properties.target = '_blank';
+        child.properties.rel = ['noopener', 'noreferrer'];
+      }
+      walk(child);
+    }
+  };
+  return (tree) => walk(tree);
+}
+
 export default defineConfig({
   // Canonical origin for sitemap/RSS/OpenGraph URLs. Currently the public
   // preview; swap for the real domain when it exists (one line).
@@ -64,6 +83,6 @@ export default defineConfig({
       defaultColor: false,
     },
     remarkPlugins: [remarkMath],
-    rehypePlugins: [rehypeFigureCaptions, rehypeKatex],
+    rehypePlugins: [rehypeFigureCaptions, rehypeExternalLinks, rehypeKatex],
   },
 });
