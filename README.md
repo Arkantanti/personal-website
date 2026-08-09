@@ -26,6 +26,7 @@ src/
     projects/       one file per project
     now/            one file per /now update, named by date
   styles/           tokens.css (design tokens) + global.css
+  utils/            links.ts — external-link detection, shared with the rehype plugin
   content.config.ts collection schemas
 public/             static assets served as-is (favicon, PDFs, robots.txt)
 astro.config.mjs    site config (canonical origin, integrations, markdown)
@@ -66,7 +67,7 @@ signoff: string     # optional — italic sign-off line
 ```bash
 npm install
 npm run dev        # dev server with hot reload
-npm run build      # production build → dist/
+npm run build      # clears .astro, then production build → dist/
 npm run preview    # preview the built site locally
 ```
 
@@ -79,9 +80,10 @@ host (e.g. **Cloudflare Pages**):
 - **Output directory:** `dist`
 - Every push to `main` triggers a rebuild and deploy.
 
-Before going live on a real domain, update the canonical origin in `astro.config.mjs`
-(the `site:` field) — it feeds the sitemap, RSS, and OpenGraph URLs. The `PREVIEW_BASE`
-env var is only for the harness preview server and should stay unset in production.
+The canonical origin in `astro.config.mjs` (the `site:` field) is currently set to
+`https://jakubpieczonka.pages.dev` — it feeds the sitemap, RSS, and OpenGraph URLs;
+swap it for a custom domain here when you add one. The `PREVIEW_BASE` env var is only
+for the harness preview server and should stay unset in production.
 
 ## Notes
 
