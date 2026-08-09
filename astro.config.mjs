@@ -63,9 +63,9 @@ function rehypeExternalLinks() {
 }
 
 export default defineConfig({
-  // Canonical origin for sitemap/RSS/OpenGraph URLs. Currently the public
-  // preview; swap for the real domain when it exists (one line).
-  site: 'https://app2.167-233-160-246.sslip.io',
+  // Canonical origin for sitemap/RSS/OpenGraph URLs. Set to the live
+  // Cloudflare Pages URL; swap for a custom domain here when you add one.
+  site: 'https://jakubpieczonka.pages.dev',
   base,
   output: 'static',
   integrations: [

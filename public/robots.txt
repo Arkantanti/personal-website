@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /styleguide
 
-Sitemap: https://app2.167-233-160-246.sslip.io/sitemap-index.xml
+Sitemap: https://jakubpieczonka.pages.dev/sitemap-index.xml
