@@ -1,0 +1,72 @@
+---
+// Contact — a small, mostly-empty page: one sentence, a few mono links.
+import Base from '../../layouts/Base.astro';
+
+const channels = [
+  { label: 'email', value: 'kubson.pieczonka@gmail.com', href: 'mailto:kubson.pieczonka@gmail.com' },
+  { label: 'github', value: 'github.com/Arkantanti', href: 'https://github.com/Arkantanti' },
+];
+---
+
+<Base title="Contact — Jakub Pieczonka" description="How to reach Jakub Pieczonka.">
+  <h1 class="page-title">contact</h1>
+  <p class="page-intro">
+    You've come this far, least I can do is reply. I'd love to talk. About anything.
+  </p>
+
+  <ul class="channels">
+    {
+      channels.map((c) => (
+        <li class="channel">
+          <span class="channel-label mono-label">{c.label}</span>
+          <a class="channel-link" href={c.href}>{c.value}</a>
+        </li>
+      ))
+    }
+  </ul>
+</Base>
+
+<style>
+  .page-title {
+    font-size: var(--step-4);
+    margin: var(--space-l) 0 var(--space-s);
+  }
+  .page-intro {
+    max-width: var(--measure);
+    margin: 0 0 var(--space-2xl);
+    color: var(--color-muted);
+  }
+  .ph {
+    opacity: 0.55;
+  }
+  .channels {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-l);
+  }
+  .channel {
+    display: grid;
+    grid-template-columns: 7.5rem 1fr;
+    gap: var(--space-m);
+    align-items: baseline;
+  }
+  .channel-label {
+    text-align: right;
+  }
+  .channel-link {
+    justify-self: start;
+    font-size: var(--step-0);
+  }
+  @media (max-width: 40rem) {
+    .channel {
+      grid-template-columns: 1fr;
+      gap: var(--space-3xs);
+    }
+    .channel-label {
+      text-align: left;
+    }
+  }
+</style>

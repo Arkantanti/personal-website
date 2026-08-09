@@ -1,0 +1,36 @@
+---
+// 404 — quiet, in-voice, one road out. Served automatically by any static
+// host that honors dist/404.html (the preview server does).
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="404 — Jakub Pieczonka" description="This page does not exist.">
+  <section class="lost">
+    <p class="mono-label">status → not found</p>
+    <h1 class="lost-title">404</h1>
+    <p class="lost-text">
+      Either you can't type or I broke something. Perhaps both?
+    </p>
+    <p class="mono-label"><a class="lost-link" href="/">back home →</a></p>
+  </section>
+</Base>
+
+<style>
+  .lost {
+    margin-top: var(--space-2xl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+  }
+  .lost-title {
+    font-size: var(--step-6);
+  }
+  .lost-text {
+    max-width: var(--measure);
+    margin: 0;
+    color: var(--color-muted);
+  }
+  .lost-link {
+    text-decoration: none;
+  }
+</style>

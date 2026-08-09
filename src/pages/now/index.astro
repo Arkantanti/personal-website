@@ -1,0 +1,165 @@
+---
+// /now — the current entry owns the page (2:1 layout from reference 1);
+// past entries wait quietly in a sidebar. Quirks: the page states its own
+// age honestly (client-computed, always true), h2 sections render as mono
+// machinery labels, and an optional italic sign-off closes the entry.
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+const entries = (await getCollection('now')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+const current = entries[0];
+const past = entries.slice(1);
+const { Content } = await render(current);
+
+const fmtLong = (d: Date) =>
+  d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }).toLowerCase();
+---
+
+<Base title="/now — Jakub Pieczonka" description="What Jakub Pieczonka is doing right now.">
+  <div class:list={['now-layout', { 'has-sidebar': past.length > 0 }]}>
+    <section class="now-main">
+      <h1 class="page-title">/now</h1>
+      <p class="now-meta mono-label">
+        {fmtLong(current.data.date)} ·
+        <span data-updated={current.data.date.toISOString()}>updated then</span>
+      </p>
+      {current.data.placeholder && <p class="mono-label ph">[placeholder entry — never ships]</p>}
+      <div class="prose now-prose">
+        <Content />
+      </div>
+      {current.data.signoff && <p class="now-signoff">— {current.data.signoff}</p>}
+    </section>
+
+    {
+      past.length > 0 && (
+        <aside class="now-sidebar">
+          <h2 class="mono-label sidebar-title">archive</h2>
+          <ul class="sidebar-list">
+            {past.map((e) => (
+              <li class="sidebar-item">
+                <span class="sidebar-node" aria-hidden="true" />
+                <a class="mono-label sidebar-link" href={`/now/${e.id}/`}>
+                  {fmtLong(e.data.date)}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </aside>
+      )
+    }
+  </div>
+</Base>
+
+<script>
+  // Honest age: computed in the visitor's browser, so it never lies
+  // between rebuilds. "updated today" → "updated N days ago".
+  const el = document.querySelector('[data-updated]');
+  if (el instanceof HTMLElement && el.dataset.updated) {
+    const days = Math.floor((Date.now() - new Date(el.dataset.updated).getTime()) / 86400000);
+    el.textContent =
+      days <= 0 ? 'updated today' : days === 1 ? 'updated yesterday' : `updated ${days} days ago`;
+  }
+</script>
+
+<style>
+  .now-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-2xl);
+    margin-top: var(--space-l);
+  }
+  @media (min-width: 48rem) {
+    .now-layout.has-sidebar {
+      grid-template-columns: 2fr 1fr;
+      gap: var(--space-2xl);
+    }
+  }
+  .page-title {
+    font-size: var(--step-4);
+    margin: 0 0 var(--space-2xs);
+  }
+  .now-meta {
+    margin: 0 0 var(--space-l);
+  }
+  .ph {
+    margin: 0 0 var(--space-m);
+    opacity: 0.55;
+  }
+  /* Section headers (Currently / Finished / Reading) in the display face,
+     case as written by the owner. */
+  .now-prose :global(h2) {
+    font-family: var(--font-display);
+    font-weight: var(--display-weight);
+    font-size: var(--step-1);
+    letter-spacing: -0.01em;
+    color: var(--color-accent);
+    margin: var(--space-l) 0 var(--space-s);
+  }
+  .now-prose :global(h2:first-child) {
+    margin-top: 0;
+  }
+  .now-signoff {
+    max-width: var(--measure);
+    margin: var(--space-l) 0 0;
+    font-style: italic;
+    color: var(--color-muted);
+  }
+
+  .now-sidebar {
+    border-left: 1px solid var(--color-border);
+    padding-left: var(--space-m);
+  }
+  @media (max-width: 47.999rem) {
+    .now-sidebar {
+      border-left: none;
+      border-top: 1px solid var(--color-border);
+      padding-left: 0;
+      padding-top: var(--space-m);
+    }
+    .sidebar-node {
+      display: none;
+    }
+  }
+  .sidebar-title {
+    margin: 0 0 var(--space-s);
+  }
+  .sidebar-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+  }
+  /* Each past entry sits on the sidebar's rail — the spine, miniaturized. */
+  .sidebar-item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
+  }
+  .sidebar-node {
+    position: absolute;
+    /* rail line center is 23.5px left of content (24px padding, 1px line);
+       node is 4px wide border-box → left = -(24px + 1.5px) centers it */
+    left: calc(-1 * var(--space-m) - 1.5px);
+    top: 0.4rem;
+    width: var(--space-3xs);
+    height: var(--space-3xs);
+    border-radius: var(--radius-full);
+    background: var(--color-bg);
+    border: 2px solid var(--color-muted);
+  }
+  .sidebar-item:hover .sidebar-node {
+    border-color: var(--color-accent);
+  }
+  .sidebar-link {
+    text-decoration: none;
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+  .sidebar-link:hover {
+    color: var(--color-accent);
+  }
+</style>

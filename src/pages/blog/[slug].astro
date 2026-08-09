@@ -1,0 +1,46 @@
+---
+// Post template: Young Serif title, mono meta, Markdown body in .prose
+// (the site's own reading typography).
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const date = post.data.date
+  .toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
+  .toLowerCase();
+---
+
+<Base title={`${post.data.title} — Jakub Pieczonka`} description={post.data.description}>
+  <article class="post">
+    {post.data.placeholder && <p class="mono-label ph">[placeholder post — never ships]</p>}
+    <h1 class="post-title">{post.data.title}</h1>
+    <p class="post-meta mono-label">{date}</p>
+    <div class="prose">
+      <Content />
+    </div>
+  </article>
+</Base>
+
+<style>
+  .post {
+    margin-top: var(--space-l);
+  }
+  .ph {
+    margin: 0 0 var(--space-m);
+    opacity: 0.55;
+  }
+  .post-title {
+    font-size: var(--step-4);
+    max-width: 22ch;
+    margin: 0 0 var(--space-2xs);
+  }
+  .post-meta {
+    margin: 0 0 var(--space-2xl);
+  }
+</style>

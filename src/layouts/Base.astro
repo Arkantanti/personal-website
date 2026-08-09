@@ -1,0 +1,127 @@
+---
+// Global layout shell: fonts, meta, pre-paint theme init, nav (optional),
+// footer + horizon. Home passes showNav={false} — its tiles ARE the nav.
+import '../styles/tokens.css';
+import '../styles/global.css';
+import 'katex/dist/katex.min.css';
+import SiteNav from '../components/SiteNav.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  showNav?: boolean;
+}
+const { title, description = 'Jakub Pieczonka — AI research, projects, writing.', showNav = true } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en" data-theme="dark" id="top">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content="Jakub Pieczonka" />
+    <meta name="twitter:card" content="summary" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="alternate" type="application/rss+xml" title="Jakub Pieczonka — blog" href="/rss.xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <script is:inline>
+      // Pre-paint theme init: dark is the default; honor a stored choice.
+      // Also keeps the browser-chrome color (theme-color) in sync.
+      try {
+        const t = localStorage.getItem('theme');
+        if (t === 'light') document.documentElement.dataset.theme = 'light';
+      } catch {}
+      {
+        const meta = document.createElement('meta');
+        meta.name = 'theme-color';
+        meta.content = document.documentElement.dataset.theme === 'light' ? '#f5eee3' : '#181210';
+        document.head.appendChild(meta);
+      }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Young+Serif&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- The sky: companion to the horizon. Soft cloud bands hang from the
+         top edge, same value-step formula as the ridges. Decorative. -->
+    <div class="sky" aria-hidden="true">
+      <svg viewBox="0 0 1440 150" preserveAspectRatio="xMidYMin slice">
+        <path class="sky-1" d="M0,0 H1440 V34 C1330,52 1230,26 1100,42 C980,56 880,24 760,38 C640,52 540,22 420,40 C300,56 200,30 100,44 C60,50 30,42 0,48 Z" />
+        <path class="sky-2" d="M0,0 H1440 V20 C1300,36 1180,14 1040,26 C900,38 800,12 660,24 C520,36 420,14 280,26 C180,34 90,18 0,28 Z" />
+        <path class="sky-3" d="M0,0 H1440 V10 C1280,20 1160,6 1000,14 C840,22 720,6 560,14 C400,22 280,8 140,14 C90,16 40,10 0,14 Z" />
+      </svg>
+    </div>
+    <a class="skip-link mono-label" href="#main">skip to content</a>
+    {showNav ? (
+      <SiteNav />
+    ) : (
+      <div class="toggle-only">
+        <ThemeToggle />
+      </div>
+    )}
+    <main class="page" id="main">
+      <slot />
+    </main>
+    <SiteFooter />
+  </body>
+</html>
+
+<style>
+  .sky {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+    pointer-events: none;
+    line-height: 0;
+  }
+  .sky svg {
+    width: 100%;
+    height: clamp(60px, 10vw, 150px);
+    display: block;
+  }
+  .sky-1 { fill: color-mix(in srgb, var(--color-text) 4%, var(--color-bg)); }
+  .sky-2 { fill: color-mix(in srgb, var(--color-text) 8%, var(--color-bg)); }
+  .sky-3 { fill: color-mix(in srgb, var(--color-text) 12%, var(--color-bg)); }
+
+  /* Keyboard users' first tab stop; invisible until focused. */
+  .skip-link {
+    position: absolute;
+    left: var(--space-m);
+    top: calc(-1 * var(--space-2xl));
+    z-index: 10;
+    padding: var(--space-2xs) var(--space-s);
+    background: var(--color-surface);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+  }
+  .skip-link:focus-visible {
+    top: var(--space-s);
+  }
+  .toggle-only {
+    width: 100%;
+    max-width: 64rem;
+    margin: 0 auto;
+    padding: var(--space-m) var(--space-m) 0;
+    display: flex;
+    justify-content: flex-end;
+  }
+</style>

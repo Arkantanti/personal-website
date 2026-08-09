@@ -1,0 +1,53 @@
+---
+// Footer + the horizon: signature move ④. The page content ends and the
+// site sits in a quiet landscape. Decorative only — never behind text.
+---
+
+<footer class="site-footer">
+  <span class="mono-label">jakub pieczonka</span>
+  <a class="mono-label foot-link" href="#top">back to top ↑</a>
+</footer>
+
+<div class="horizon" aria-hidden="true">
+  <!-- Rolling hills: rounded, like the sky's cloud bands — one curve
+       language top and bottom, ground rising vs sky hanging. -->
+  <svg viewBox="0 0 1440 300" preserveAspectRatio="xMidYMax slice">
+    <path class="hz-1" d="M0,185 C160,140 320,205 480,165 C640,125 800,195 960,155 C1120,120 1280,190 1440,160 L1440,300 L0,300 Z" />
+    <path class="hz-2" d="M0,225 C180,185 340,240 520,205 C700,170 860,235 1020,205 C1180,180 1320,225 1440,200 L1440,300 L0,300 Z" />
+    <path class="hz-3" d="M0,250 C200,220 380,265 560,240 C740,215 920,265 1100,242 C1260,222 1360,252 1440,240 L1440,300 L0,300 Z" />
+    <path class="hz-4" d="M0,278 C220,258 420,285 640,268 C860,252 1080,282 1280,268 C1360,262 1410,268 1440,264 L1440,300 L0,300 Z" />
+  </svg>
+</div>
+
+<style>
+  .site-footer {
+    width: 100%;
+    max-width: 64rem;
+    margin: 0 auto;
+    padding: 0 var(--space-m) var(--space-2xs);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-m);
+  }
+  .foot-link {
+    text-decoration: none;
+  }
+  .foot-link:hover {
+    color: var(--color-text);
+  }
+  .horizon {
+    display: block;
+    line-height: 0;
+    margin-top: var(--space-l);
+  }
+  .horizon svg {
+    width: 100%;
+    height: clamp(100px, 18vw, 260px);
+    display: block;
+  }
+  .hz-1 { fill: color-mix(in srgb, var(--color-text) 5%, var(--color-bg)); }
+  .hz-2 { fill: color-mix(in srgb, var(--color-text) 10%, var(--color-bg)); }
+  .hz-3 { fill: color-mix(in srgb, var(--color-text) 15%, var(--color-bg)); }
+  .hz-4 { fill: color-mix(in srgb, var(--color-text) 20%, var(--color-bg)); }
+</style>

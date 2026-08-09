@@ -1,0 +1,93 @@
+---
+// Projects — one timeline spine (signature move ③): active projects on
+// top with gold nodes; archived ones fold behind a native expander
+// (reintroduced once the archive outgrew the page — owner call, aug 2026).
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import ProjectEntry from '../../components/ProjectEntry.astro';
+
+const projects = (await getCollection('projects')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+const active = projects.filter((p) => !p.data.archived);
+const archived = projects.filter((p) => p.data.archived);
+
+const rendered = new Map();
+for (const p of projects) {
+  const { Content } = await render(p);
+  rendered.set(p.id, Content);
+}
+---
+
+<Base title="Projects — Jakub Pieczonka" description="What Jakub Pieczonka is building.">
+  <h1 class="page-title">projects</h1>
+  <p class="page-intro">
+    Things I am doing or did. In order of recency.
+  </p>
+
+  <div class="timeline">
+    {active.map((p) => <ProjectEntry project={p} Content={rendered.get(p.id)} />)}
+  </div>
+
+  {
+    archived.length > 0 && (
+      <details class="tl-fold">
+        <summary class="mono-label tl-fold-summary">
+          older projects ({archived.length})
+        </summary>
+        <div class="timeline tl-fold-list">
+          {archived.map((p) => (
+            <ProjectEntry project={p} Content={rendered.get(p.id)} />
+          ))}
+        </div>
+      </details>
+    )
+  }
+</Base>
+
+<style>
+  .page-title {
+    font-size: var(--step-4);
+    margin: var(--space-l) 0 var(--space-s);
+  }
+  .page-intro {
+    max-width: var(--measure);
+    margin: 0 0 var(--space-2xl);
+    color: var(--color-muted);
+  }
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xl);
+  }
+  .tl-fold {
+    margin-top: var(--space-2xl);
+  }
+  .tl-fold-summary {
+    cursor: pointer;
+    list-style: none;
+    width: fit-content;
+    padding: var(--space-3xs) 0;
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+  .tl-fold-summary::-webkit-details-marker {
+    display: none;
+  }
+  .tl-fold-summary:hover {
+    color: var(--color-accent);
+  }
+  .tl-fold-summary:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+  .tl-fold-summary::before {
+    content: '↓ ';
+  }
+  .tl-fold[open] .tl-fold-summary {
+    margin-bottom: var(--space-2xl);
+  }
+  .tl-fold[open] .tl-fold-summary::before {
+    content: '↑ ';
+  }
+</style>

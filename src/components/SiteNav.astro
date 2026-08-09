@@ -1,0 +1,68 @@
+---
+// Quiet one-line mono nav for inner pages. Home has no nav bar — the
+// tile board IS the navigation there (Home shows only the theme toggle).
+import ThemeToggle from './ThemeToggle.astro';
+
+const current = Astro.url.pathname;
+const links = [
+  { href: '/projects/', label: 'projects' },
+  { href: '/blog/', label: 'blog' },
+  { href: '/now/', label: 'now' },
+  { href: '/contact/', label: 'contact' },
+  { href: '/resume.pdf', label: 'resume' },
+];
+const isCurrent = (href: string) => current.startsWith(href) && href !== '/resume.pdf';
+---
+
+<header class="site-nav">
+  <a class="nav-name mono-label" href="/">jakub pieczonka</a>
+  <nav class="nav-links" aria-label="Site">
+    {links.map((l) => (
+      <a
+        class:list={['nav-link', 'mono-label', { current: isCurrent(l.href) }]}
+        href={l.href}
+        aria-current={isCurrent(l.href) ? 'page' : undefined}
+      >
+        {l.label}
+      </a>
+    ))}
+    <ThemeToggle />
+  </nav>
+</header>
+
+<style>
+  .site-nav {
+    width: 100%;
+    max-width: 64rem;
+    margin: 0 auto;
+    padding: var(--space-m) var(--space-m) 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-m);
+    flex-wrap: wrap;
+  }
+  .nav-name {
+    color: var(--color-text);
+    text-decoration: none;
+  }
+  .nav-name:hover {
+    color: var(--color-accent);
+  }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+    flex-wrap: wrap;
+  }
+  .nav-link {
+    text-decoration: none;
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+  .nav-link:hover {
+    color: var(--color-text);
+  }
+  .nav-link.current {
+    color: var(--color-accent);
+  }
+</style>

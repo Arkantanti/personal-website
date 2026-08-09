@@ -1,0 +1,463 @@
+---
+// /styleguide — the owner's control panel.
+// Renders every design token in use. No site components live here yet;
+// everything on this page consumes tokens ONLY (no magic numbers).
+import '../styles/tokens.css';
+---
+
+<!doctype html>
+<html lang="en" data-theme="dark" data-accent="gold">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Styleguide — Jakub Pieczonka</title>
+    <meta name="robots" content="noindex" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Young+Serif&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="bar">
+      <span class="bar-title">styleguide / control panel</span>
+      <div class="bar-controls">
+        <label class="bar-label" for="accent-select">accent</label>
+        <select id="accent-select" class="control">
+          <option value="gold" selected>old gold</option>
+          <option value="ember">ember</option>
+          <option value="rust">rust</option>
+        </select>
+        <button id="theme-toggle" class="control" type="button">
+          light mode
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section class="intro">
+        <h1 class="display-xl">Jakub Pieczonka</h1>
+        <p class="lede">
+          This page renders every design token in use. It is the single
+          control panel for the site's look — tune tokens here, and every
+          future page follows.
+        </p>
+      </section>
+
+      <!-- ============ TYPE RAMP ============ -->
+      <section>
+        <h2 class="section-title">type ramp — ratio 1.25</h2>
+        <div class="ramp">
+          <div class="ramp-row"><span class="ramp-label">--step-6 · display</span><span class="display" style="font-size: var(--step-6)">Warm dark room</span></div>
+          <div class="ramp-row"><span class="ramp-label">--step-5 · display</span><span class="display" style="font-size: var(--step-5)">Warm dark room</span></div>
+          <div class="ramp-row"><span class="ramp-label">--step-4 · display</span><span class="display" style="font-size: var(--step-4)">Warm dark room</span></div>
+          <div class="ramp-row"><span class="ramp-label">--step-3 · display</span><span class="display" style="font-size: var(--step-3)">Warm dark room</span></div>
+          <div class="ramp-row"><span class="ramp-label">--step-2 · text cut</span><span class="serif-text" style="font-size: var(--step-2)">Warm dark room</span></div>
+          <div class="ramp-row"><span class="ramp-label">--step-1 · text cut</span><span class="serif-text" style="font-size: var(--step-1)">Warm dark room</span></div>
+          <div class="ramp-row"><span class="ramp-label">--step-0 · body</span><span class="serif-text" style="font-size: var(--step-0)">Warm dark room — body text, 17–18px, line-height 1.65</span></div>
+          <div class="ramp-row"><span class="ramp-label">--step--1 · small</span><span class="serif-text" style="font-size: var(--step--1)">Warm dark room — captions, asides</span></div>
+          <div class="ramp-row"><span class="ramp-label">--step--2 · mono</span><span class="mono-label">warm dark room — nav, dates, statuses</span></div>
+        </div>
+        <p class="note">
+          Display sizes (--step-3 and up) use Young Serif — the title face,
+          chosen by audition. Reading sizes use Source Serif 4;
+          small labels use IBM Plex Mono.
+        </p>
+      </section>
+
+      <!-- ============ COLOR ============ -->
+      <section>
+        <h2 class="section-title">color — current theme</h2>
+        <div class="swatches" id="swatches">
+          <div class="swatch" data-token="--color-bg"><div class="chip" style="background: var(--color-bg)"></div><span class="mono-label">--color-bg</span><span class="hex mono-label"></span></div>
+          <div class="swatch" data-token="--color-surface"><div class="chip" style="background: var(--color-surface)"></div><span class="mono-label">--color-surface</span><span class="hex mono-label"></span></div>
+          <div class="swatch" data-token="--color-surface-2"><div class="chip" style="background: var(--color-surface-2)"></div><span class="mono-label">--color-surface-2</span><span class="hex mono-label"></span></div>
+          <div class="swatch" data-token="--color-text"><div class="chip" style="background: var(--color-text)"></div><span class="mono-label">--color-text</span><span class="hex mono-label"></span></div>
+          <div class="swatch" data-token="--color-muted"><div class="chip" style="background: var(--color-muted)"></div><span class="mono-label">--color-muted</span><span class="hex mono-label"></span></div>
+          <div class="swatch" data-token="--color-border"><div class="chip" style="background: var(--color-border)"></div><span class="mono-label">--color-border</span><span class="hex mono-label"></span></div>
+          <div class="swatch" data-token="--color-accent"><div class="chip" style="background: var(--color-accent)"></div><span class="mono-label">--color-accent</span><span class="hex mono-label"></span></div>
+        </div>
+        <p class="note">
+          Toggle the theme (top right) to inspect the light palette. All
+          text/background pairs pass WCAG AA in both themes. The accent
+          switcher previews candidate hues — the shipped site has exactly one.
+        </p>
+      </section>
+
+      <!-- ============ LINKS + BUTTONS + FORMS ============ -->
+      <section>
+        <h2 class="section-title">links · buttons · forms</h2>
+        <div class="specimen-grid">
+          <div class="specimen">
+            <p class="serif-text">
+              Inline <a href="#">links look like this</a>, and
+              <a href="#">hover shifts them to the accent</a>. Muted text
+              <span class="muted">steps back like this</span>.
+            </p>
+          </div>
+          <div class="specimen row">
+            <button class="btn btn-primary" type="button">primary action</button>
+            <button class="btn btn-ghost" type="button">ghost action</button>
+          </div>
+          <div class="specimen">
+            <label class="field-label mono-label" for="demo-input">your email</label>
+            <input id="demo-input" class="field" type="email" placeholder="you@example.org" />
+            <label class="field-label mono-label" for="demo-textarea">message</label>
+            <textarea id="demo-textarea" class="field" rows="3" placeholder="Say something precise."></textarea>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ HOME TILES ============ -->
+      <section>
+        <h2 class="section-title">home tiles — the bento of doors</h2>
+        <div class="tiles">
+          <a class="tile tile-wide" href="#">
+            <span class="tile-name display">projects</span>
+            <span class="tile-preview serif-text">latest: this website, built in the open</span>
+            <span class="tile-meta mono-label">3 ongoing →</span>
+          </a>
+          <a class="tile" href="#">
+            <span class="tile-name display">/now</span>
+            <span class="tile-preview serif-text">Reading about evaluation of LLM calibration…</span>
+            <span class="tile-meta mono-label">updated aug 2026 →</span>
+          </a>
+          <a class="tile" href="#">
+            <span class="tile-name display">blog</span>
+            <span class="tile-preview serif-text">first post lands soon</span>
+            <span class="tile-meta mono-label">rss available →</span>
+          </a>
+          <a class="tile" href="#">
+            <span class="tile-name display">resume</span>
+            <span class="tile-meta mono-label">pdf, one page →</span>
+          </a>
+          <a class="tile" href="#">
+            <span class="tile-name display">contact</span>
+            <span class="tile-meta mono-label">email · github →</span>
+          </a>
+        </div>
+        <p class="note">
+          Tiles are doors to real pages. They differ by size, type and live
+          content — never by hue. Hover: surface lifts one level, accent
+          appears on the meta line only.
+        </p>
+      </section>
+
+      <!-- ============ TIMELINE ============ -->
+      <section>
+        <h2 class="section-title">timeline — projects & /now archive spine</h2>
+        <div class="timeline">
+          <div class="tl-entry">
+            <div class="tl-rail">
+              <span class="tl-date mono-label">2026–now</span>
+              <span class="tl-node" aria-hidden="true"></span>
+            </div>
+            <div class="tl-body">
+              <h3 class="tl-title serif-text">Placeholder: LLM calibration probe</h3>
+              <p class="serif-text tl-desc">A placeholder project description — two calm sentences about what the thing is and why it exists. No metrics bragging, just what it does.</p>
+              <p class="tl-status mono-label">status → active, writeup pending</p>
+            </div>
+          </div>
+          <div class="tl-entry tl-child">
+            <div class="tl-rail">
+              <span class="tl-date mono-label">2026 q2</span>
+              <span class="tl-node tl-node-sm" aria-hidden="true"></span>
+            </div>
+            <div class="tl-body">
+              <h3 class="tl-subtitle serif-text">Sub-milestone: dataset pipeline</h3>
+            </div>
+          </div>
+          <div class="tl-entry">
+            <div class="tl-rail">
+              <span class="tl-date mono-label">2025</span>
+              <span class="tl-node" aria-hidden="true"></span>
+            </div>
+            <div class="tl-body">
+              <h3 class="tl-title serif-text">Placeholder: earlier thing</h3>
+              <p class="tl-status mono-label">status → shipped</p>
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-ghost" type="button">↓ older entries</button>
+      </section>
+
+      <!-- ============ PROSE / BLOG SAMPLE ============ -->
+      <section>
+        <h2 class="section-title">blog post sample — at target measure (68ch)</h2>
+        <article class="prose">
+          <h1 class="display">On measuring what a model believes</h1>
+          <p class="prose-meta mono-label">aug 2026 · 6 min read</p>
+          <p>This is placeholder prose to preview the reading experience — never shipped. The measure is capped at 68 characters, the body sits at 17–18px with a 1.65 line-height, and links inside prose <a href="#">look like this one</a>.</p>
+          <h2>A second-level heading</h2>
+          <p>Body text continues with generous rhythm. Emphasis is set <em>in the italic cut</em>, strong text <strong>carries a bit more weight</strong>, and inline code renders in the mono: <code>p(confident) ≠ p(correct)</code>.</p>
+          <blockquote>Blockquotes step inward and pick up a hairline of accent — quiet, not decorative.</blockquote>
+          <ul>
+            <li>Lists keep the body rhythm,</li>
+            <li>with markers in muted ink,</li>
+            <li>and comfortable gaps.</li>
+          </ul>
+          <pre><code>def calibration_gap(preds, outcomes):
+    return abs(preds.mean() - outcomes.mean())</code></pre>
+          <p>A final paragraph closes the sample so the full vertical rhythm of a real post is visible on this page.</p>
+        </article>
+      </section>
+
+      <!-- ============ HORIZON (proposed background element) ============ -->
+      <section>
+        <h2 class="section-title">horizon — proposal, live at the very bottom of this page</h2>
+        <p class="note">
+          Scroll to the end: the page now closes with layered flat ridges
+          (no sun), full-bleed. Every shade is derived from the theme tokens
+          (bg mixed toward text in 5% steps), so it adapts to light/dark
+          automatically and retunes itself whenever the palette changes.
+        </p>
+      </section>
+
+      <footer class="foot">
+        <span class="mono-label">tokens: src/styles/tokens.css · every value above comes from a token</span>
+      </footer>
+    </main>
+
+    <div class="horizon" aria-hidden="true">
+      <svg viewBox="0 0 1440 300" preserveAspectRatio="xMidYMax slice">
+        <path class="hz-1" d="M0,190 L120,150 L260,185 L390,130 L520,175 L650,145 L800,185 L930,140 L1080,180 L1220,155 L1350,180 L1440,160 L1440,300 L0,300 Z" />
+        <path class="hz-2" d="M0,220 L150,180 L300,215 L430,170 L600,210 L760,175 L920,215 L1100,180 L1260,215 L1440,190 L1440,300 L0,300 Z" />
+        <path class="hz-3" d="M0,250 L180,215 L340,245 L520,205 L700,245 L880,215 L1060,250 L1240,220 L1440,245 L1440,300 L0,300 Z" />
+        <path class="hz-4" d="M0,280 L200,250 L400,275 L620,245 L840,275 L1060,250 L1260,278 L1440,260 L1440,300 L0,300 Z" />
+      </svg>
+    </div>
+
+    <style>
+      /* ====== styleguide-local accent CANDIDATES (preview only) ======
+         Shipped site keeps exactly one accent, set in tokens.css. */
+      :root[data-accent='rust'] { --color-accent: #d95f3f; --color-accent-hover: #c04f31; }
+      :root[data-theme='light'][data-accent='rust'] { --color-accent: #96391b; --color-accent-hover: #822f15; }
+      :root[data-accent='ember'] { --color-accent: #e8853b; --color-accent-hover: #cf7229; }
+      :root[data-theme='light'][data-accent='ember'] { --color-accent: #a14e10; --color-accent-hover: #8b420c; }
+
+      /* ====== base ====== */
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: var(--color-bg);
+        color: var(--color-text);
+        font-family: var(--font-serif);
+        font-optical-sizing: auto;
+        font-size: var(--step-0);
+        line-height: var(--leading-body);
+        transition: background var(--dur-slow) var(--ease-out), color var(--dur-slow) var(--ease-out);
+      }
+      main { max-width: 64rem; margin: 0 auto; padding: var(--space-xl) var(--space-m) var(--space-3xl); }
+      section { margin-block: var(--space-3xl); }
+
+      .display, .display-xl {
+        font-family: var(--font-display);
+        font-weight: var(--display-weight);
+        line-height: var(--leading-tight);
+        letter-spacing: -0.01em;
+      }
+      .display-xl { font-size: var(--step-6); margin: 0; }
+      .serif-text {
+        font-family: var(--font-serif);
+      }
+      .mono-label {
+        font-family: var(--font-mono);
+        font-size: var(--step--2);
+        letter-spacing: var(--tracking-mono);
+        text-transform: lowercase;
+        color: var(--color-muted);
+      }
+      .muted { color: var(--color-muted); }
+
+      /* ====== top bar ====== */
+      .bar {
+        position: sticky; top: 0; z-index: 10;
+        display: flex; justify-content: space-between; align-items: center; gap: var(--space-m);
+        padding: var(--space-xs) var(--space-m);
+        background: color-mix(in srgb, var(--color-bg) 88%, transparent);
+        backdrop-filter: blur(8px);
+        border-bottom: 1px solid var(--color-border);
+      }
+      .bar-title { font-family: var(--font-mono); font-size: var(--step--2); letter-spacing: var(--tracking-mono); color: var(--color-muted); }
+      .bar-controls { display: flex; align-items: center; gap: var(--space-2xs); }
+      .bar-label { font-family: var(--font-mono); font-size: var(--step--2); color: var(--color-muted); }
+      .control {
+        font-family: var(--font-mono); font-size: var(--step--2); letter-spacing: var(--tracking-mono);
+        background: var(--color-surface); color: var(--color-text);
+        border: 1px solid var(--color-border); border-radius: var(--radius-sm);
+        padding: var(--space-3xs) var(--space-xs); cursor: pointer;
+        transition: background var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
+      }
+      .control:hover { background: var(--color-surface-2); }
+      .control:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+
+      .intro { margin-top: var(--space-2xl); }
+      .lede { max-width: var(--measure); color: var(--color-muted); font-size: var(--step-1); line-height: var(--leading-snug); }
+
+      .section-title {
+        font-family: var(--font-mono); font-size: var(--step--1); font-weight: 500;
+        letter-spacing: var(--tracking-mono); text-transform: lowercase;
+        color: var(--color-muted);
+        border-bottom: 1px solid var(--color-border);
+        padding-bottom: var(--space-2xs); margin-bottom: var(--space-l);
+      }
+      .note { max-width: var(--measure); color: var(--color-muted); font-size: var(--step--1); margin-top: var(--space-m); }
+
+      /* ====== ramp ====== */
+      .ramp { display: flex; flex-direction: column; gap: var(--space-m); }
+      .ramp-row { display: flex; flex-direction: column; gap: var(--space-3xs); }
+      .ramp-label { font-family: var(--font-mono); font-size: var(--step--2); letter-spacing: var(--tracking-mono); color: var(--color-muted); }
+
+      /* ====== swatches ====== */
+      .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr)); gap: var(--space-s); }
+      .swatch { display: flex; flex-direction: column; gap: var(--space-3xs); }
+      .chip { height: var(--space-2xl); border-radius: var(--radius-md); border: 1px solid var(--color-border); box-shadow: var(--shadow-sm); }
+
+      /* ====== specimens ====== */
+      .specimen-grid { display: flex; flex-direction: column; gap: var(--space-l); max-width: var(--measure); }
+      .specimen.row { display: flex; gap: var(--space-s); flex-wrap: wrap; }
+      /* Text links: always accent-colored; hover fills the background with
+         accent and flips the text to accent-ink. Scoped to prose contexts so
+         composite links (tiles) keep their own treatment. */
+      a {
+        color: var(--color-accent);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+        transition: color var(--dur-fast) var(--ease-out);
+      }
+      :is(p, li, blockquote) a:hover {
+        color: var(--color-accent-hover);
+      }
+      a:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; border-radius: 2px; }
+
+      .btn {
+        font-family: var(--font-mono); font-size: var(--step--1); letter-spacing: var(--tracking-mono);
+        padding: var(--space-2xs) var(--space-m); border-radius: var(--radius-sm); cursor: pointer;
+        transition: transform var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out);
+      }
+      .btn:hover { transform: translateY(-1px); }
+      .btn:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+      .btn-primary { background: var(--color-accent); color: var(--color-accent-ink); border: 1px solid transparent; }
+      .btn-primary:hover { background: var(--color-accent-hover); }
+      .btn-ghost { background: transparent; color: var(--color-text); border: 1px solid var(--color-border); }
+      .btn-ghost:hover { background: color-mix(in srgb, var(--color-surface) 85%, var(--color-bg)); }
+
+      .field-label { display: block; margin-bottom: var(--space-3xs); margin-top: var(--space-s); }
+      .field {
+        width: 100%; font-family: var(--font-serif); font-size: var(--step-0);
+        background: var(--color-surface); color: var(--color-text);
+        border: 1px solid var(--color-border); border-radius: var(--radius-sm);
+        padding: var(--space-2xs) var(--space-xs);
+        transition: border-color var(--dur-fast) var(--ease-out);
+      }
+      .field::placeholder { color: var(--color-muted); }
+      .field:focus { outline: none; border-color: var(--color-accent); }
+
+      /* ====== tiles ====== */
+      .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: var(--space-s); }
+      .tile {
+        display: flex; flex-direction: column; gap: var(--space-2xs); justify-content: space-between;
+        min-height: 11rem;
+        color: var(--color-text); /* composite link: cream, NOT the gold text-link color */
+        text-decoration: none;
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-m);
+        text-decoration: none;
+        box-shadow: var(--shadow-sm);
+        transition: background var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out), box-shadow var(--dur-base) var(--ease-out);
+      }
+      .tile:hover { background: var(--color-surface-2); transform: translateY(-2px); box-shadow: var(--shadow-md); color: var(--color-text); }
+      .tile:hover .tile-meta { color: var(--color-accent); }
+      .tile-wide { grid-column: span 2; }
+      .tile-name { font-size: var(--step-3); }
+      .tile-preview { color: var(--color-muted); font-size: var(--step--1); line-height: var(--leading-snug); }
+      .tile-meta { transition: color var(--dur-fast) var(--ease-out); }
+      @media (max-width: 40rem) { .tile-wide { grid-column: span 1; } }
+
+      /* ====== timeline ====== */
+      .timeline { display: flex; flex-direction: column; gap: var(--space-l); margin-bottom: var(--space-m); }
+      .tl-entry { display: grid; grid-template-columns: 7.5rem 1fr; gap: var(--space-m); }
+      .tl-rail { position: relative; text-align: right; padding-right: var(--space-m); border-right: 1px solid var(--color-border); }
+      .tl-date { display: block; padding-top: var(--space-3xs); }
+      .tl-node {
+        position: absolute; right: calc(-1 * var(--space-3xs) - 1px); top: var(--space-2xs);
+        width: var(--space-2xs); height: var(--space-2xs); border-radius: var(--radius-full);
+        background: var(--color-bg); border: 2px solid var(--color-accent);
+      }
+      .tl-node-sm { width: var(--space-3xs); height: var(--space-3xs); border-color: var(--color-muted); right: calc(-1 * 0.1875rem - 1px); }
+      .tl-title { font-size: var(--step-1); margin: 0 0 var(--space-2xs); font-weight: 560; }
+      .tl-subtitle { font-size: var(--step-0); margin: 0; color: var(--color-muted); }
+      .tl-desc { max-width: var(--measure); margin: 0 0 var(--space-2xs); color: var(--color-text); }
+      .tl-status { color: var(--color-accent); }
+      .tl-child .tl-rail { border-right-color: transparent; }
+      @media (max-width: 40rem) {
+        .tl-entry { grid-template-columns: 1fr; gap: var(--space-3xs); }
+        .tl-rail { text-align: left; border-right: none; padding-right: 0; }
+        .tl-node { display: none; }
+      }
+
+      /* ====== prose ====== */
+      .prose { max-width: var(--measure); }
+      .prose h1 { font-size: var(--step-4); margin: 0 0 var(--space-3xs); }
+      .prose .prose-meta { display: block; margin-bottom: var(--space-l); }
+      .prose h2 { font-family: var(--font-display); font-size: var(--step-2); font-weight: var(--display-weight); line-height: var(--leading-snug); margin: var(--space-xl) 0 var(--space-s); }
+      .prose p { margin: 0 0 var(--space-m); }
+      .prose blockquote {
+        margin: var(--space-l) 0; padding: var(--space-2xs) var(--space-m);
+        border-left: 2px solid var(--color-accent);
+        color: var(--color-muted); font-style: italic;
+      }
+      .prose ul { margin: 0 0 var(--space-m); padding-left: var(--space-m); }
+      .prose li { margin-bottom: var(--space-3xs); }
+      .prose li::marker { color: var(--color-muted); }
+      .prose code { font-family: var(--font-mono); font-size: 0.88em; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 0.1em 0.35em; }
+      .prose pre { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-s) var(--space-m); overflow-x: auto; margin: 0 0 var(--space-m); }
+      .prose pre code { background: none; border: none; padding: 0; font-size: var(--step--1); line-height: 1.5; }
+
+      /* ====== horizon (page-bottom, full-bleed, no sun) ====== */
+      .horizon { display: block; line-height: 0; margin-top: var(--space-3xl); }
+      .horizon svg { width: 100%; height: clamp(120px, 20vw, 280px); display: block; }
+      .hz-1 { fill: color-mix(in srgb, var(--color-text) 5%, var(--color-bg)); }
+      .hz-2 { fill: color-mix(in srgb, var(--color-text) 10%, var(--color-bg)); }
+      .hz-3 { fill: color-mix(in srgb, var(--color-text) 15%, var(--color-bg)); }
+      .hz-4 { fill: color-mix(in srgb, var(--color-text) 20%, var(--color-bg)); }
+
+      .foot { border-top: 1px solid var(--color-border); padding-top: var(--space-m); margin-top: var(--space-3xl); }
+    </style>
+
+    <script>
+      const root = document.documentElement;
+      const toggle = document.getElementById('theme-toggle');
+      const accentSelect = document.getElementById('accent-select');
+
+      toggle?.addEventListener('click', () => {
+        const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+        root.dataset.theme = next;
+        if (toggle) toggle.textContent = next === 'dark' ? 'light mode' : 'dark mode';
+        fillHex();
+      });
+
+      accentSelect?.addEventListener('change', () => {
+        root.dataset.accent = accentSelect.value;
+        fillHex();
+      });
+
+
+      // Show each swatch's current computed value so tuning talk can use hex.
+      function fillHex() {
+        requestAnimationFrame(() => {
+          const styles = getComputedStyle(root);
+          document.querySelectorAll('.swatch').forEach((el) => {
+            const token = el.getAttribute('data-token');
+            const hexEl = el.querySelector('.hex');
+            if (token && hexEl) hexEl.textContent = styles.getPropertyValue(token).trim();
+          });
+        });
+      }
+      fillHex();
+    </script>
+  </body>
+</html>

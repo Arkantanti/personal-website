@@ -1,0 +1,115 @@
+/* ============================================================
+   DESIGN TOKENS — the ONLY tuning surface for this site.
+   Every visual value in every component comes from here.
+   Tuning protocol: owner names a token → change it here → done.
+   ============================================================ */
+
+/* ---------- Typography ---------- */
+:root {
+  /* Three typefaces (owner amended the 2-font constraint after the J/F
+     audition): Young Serif for big titles, Fraunces text cut for prose,
+     IBM Plex Mono for UI machinery. */
+  --font-display: 'Young Serif', 'Georgia', serif;
+  --display-weight: 400;      /* Young Serif ships one weight */
+  --font-serif: 'Source Serif 4', 'Georgia', serif;
+  --font-mono: 'IBM Plex Mono', 'Menlo', monospace;
+
+  /* Modular type scale, ratio 1.25 (major third), fluid base.
+     --step-0 is body text: 17px → 18px across viewports. */
+  --step--2: clamp(0.68rem, 0.66rem + 0.10vw, 0.72rem);
+  --step--1: clamp(0.85rem, 0.82rem + 0.13vw, 0.90rem);
+  --step-0:  clamp(1.0625rem, 1.03rem + 0.16vw, 1.125rem);
+  --step-1:  clamp(1.33rem, 1.28rem + 0.20vw, 1.41rem);
+  --step-2:  clamp(1.66rem, 1.60rem + 0.25vw, 1.76rem);
+  --step-3:  clamp(2.08rem, 2.00rem + 0.31vw, 2.20rem);
+  --step-4:  clamp(2.59rem, 2.50rem + 0.39vw, 2.75rem);
+  --step-5:  clamp(3.24rem, 3.13rem + 0.49vw, 3.43rem);
+  --step-6:  clamp(4.05rem, 3.91rem + 0.61vw, 4.29rem);
+
+  --leading-tight: 1.1;    /* display titles */
+  --leading-snug: 1.35;    /* subheads, tiles */
+  --leading-body: 1.65;    /* prose */
+  --tracking-mono: 0.08em; /* letterspaced mono labels */
+  --measure: 68ch;         /* target reading column */
+}
+
+/* ---------- Spacing / shape / motion ---------- */
+:root {
+  --space-3xs: 0.25rem;  /*  4px */
+  --space-2xs: 0.5rem;   /*  8px */
+  --space-xs:  0.75rem;  /* 12px */
+  --space-s:   1rem;     /* 16px */
+  --space-m:   1.5rem;   /* 24px */
+  --space-l:   2rem;     /* 32px */
+  --space-xl:  3rem;     /* 48px */
+  --space-2xl: 4rem;     /* 64px */
+  --space-3xl: 6rem;     /* 96px */
+
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-full: 999px;
+
+  --dur-fast: 150ms;
+  --dur-base: 200ms;
+  --dur-slow: 250ms;
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.45, 0, 0.25, 1);
+}
+
+/* ---------- Color — DARK (default theme) ----------
+   Warm espresso near-black, cream foreground, one ember accent.
+   Not pure black, not navy: the page is a dim room, not a terminal. */
+:root,
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --color-bg: #181210;         /* espresso ground */
+  --color-surface: #221a15;    /* tiles, cards */
+  --color-surface-2: #2c221b;  /* hover / raised */
+  --color-text: #f0e7da;       /* cream, not white */
+  --color-muted: #a99a87;      /* secondary text — AA on bg */
+  --color-border: #3a2e24;     /* hairlines */
+
+  --color-accent: #d9a441;       /* old gold — interactive/emphasis on dark */
+  --color-accent-hover: #c08e2f; /* dimmed gold for hovered accent fills */
+  --color-accent-ink: #1c130b;   /* text ON accent fills */
+
+  --grain-opacity: 0.05;         /* paper grain strength (0 = off) */
+
+  --shadow-sm: 0 1px 3px rgb(8 5 3 / 0.5);
+  --shadow-md: 0 4px 16px rgb(8 5 3 / 0.45);
+  --shadow-lg: 0 12px 40px rgb(8 5 3 / 0.5);
+}
+
+/* ---------- Color — LIGHT ----------
+   Warm tinted paper, same logic, accent darkened for AA. */
+:root[data-theme='light'] {
+  color-scheme: light;
+
+  --color-bg: #f5eee3;
+  --color-surface: #fbf6ec;
+  --color-surface-2: #efe5d5;
+  --color-text: #2b211a;
+  --color-muted: #6d5c4c;
+  --color-border: #d9cbb8;
+
+  --color-accent: #7d5d0e;
+  --color-accent-hover: #6b4f0b;
+  --color-accent-ink: #fbf6ec;
+
+  --grain-opacity: 0.04;
+
+  --shadow-sm: 0 1px 3px rgb(90 70 50 / 0.14);
+  --shadow-md: 0 4px 16px rgb(90 70 50 / 0.12);
+  --shadow-lg: 0 12px 40px rgb(90 70 50 / 0.14);
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 1ms;
+    --dur-base: 1ms;
+    --dur-slow: 1ms;
+  }
+}

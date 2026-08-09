@@ -1,0 +1,37 @@
+# ─── dependencies & build output ───────────────────────────
+node_modules/
+dist/
+.astro/
+
+# ─── logs & caches ─────────────────────────────────────────
+*.log
+npm-debug.log*
+.cache/
+.vite/
+
+# ─── environment & secrets (none exist today; future-proof) ─
+.env
+.env.*
+!.env.example
+
+# ─── OS / editor noise ─────────────────────────────────────
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# ─── personal content: NOW TRACKED for git-connected deploy ──
+# Switched from the earlier self-host design (where content stayed
+# local on the box) to a git-connected host (Cloudflare Pages),
+# which builds the site FROM the repo. Posts, projects and /now
+# entries must therefore be committed and pushed — otherwise the
+# deployed site would render with empty sections.
+#   (previously ignored: src/content/{blog,projects,now}/*)
+
+# ─── documents served from public/ (resume, handbooks) ──────
+# Also tracked now so their links don't 404 on the deployed site.
+# NOTE: these become publicly downloadable once you push + deploy.
+#   (previously ignored: public/*.pdf)

@@ -1,0 +1,73 @@
+---
+// A single past /now entry — same shape as the current page, clearly
+// timestamped, with a pointer back to the present.
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('now');
+  return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const fmtLong = (d: Date) =>
+  d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }).toLowerCase();
+---
+
+<Base
+  title={`/now, ${fmtLong(entry.data.date)} — Jakub Pieczonka`}
+  description={entry.data.tagline ?? `What Jakub was doing on ${fmtLong(entry.data.date)}.`}
+>
+  <article class="now-past">
+    <h1 class="page-title">/now</h1>
+    <p class="now-meta mono-label">
+      snapshot from {fmtLong(entry.data.date)} · <a href="/now/">current →</a>
+    </p>
+    {entry.data.placeholder && <p class="mono-label ph">[placeholder entry — never ships]</p>}
+    <div class="prose now-prose">
+      <Content />
+    </div>
+    {entry.data.signoff && <p class="now-signoff">— {entry.data.signoff}</p>}
+  </article>
+</Base>
+
+<style>
+  .now-past {
+    margin-top: var(--space-l);
+  }
+  .page-title {
+    font-size: var(--step-4);
+    margin: 0 0 var(--space-2xs);
+  }
+  .now-meta {
+    margin: 0 0 var(--space-l);
+  }
+  .now-meta a {
+    color: var(--color-muted);
+  }
+  .now-meta a:hover {
+    color: var(--color-accent);
+  }
+  .ph {
+    margin: 0 0 var(--space-m);
+    opacity: 0.55;
+  }
+  .now-prose :global(h2) {
+    font-family: var(--font-display);
+    font-weight: var(--display-weight);
+    font-size: var(--step-1);
+    letter-spacing: -0.01em;
+    color: var(--color-accent);
+    margin: var(--space-l) 0 var(--space-s);
+  }
+  .now-prose :global(h2:first-child) {
+    margin-top: 0;
+  }
+  .now-signoff {
+    max-width: var(--measure);
+    margin: var(--space-l) 0 0;
+    font-style: italic;
+    color: var(--color-muted);
+  }
+</style>
