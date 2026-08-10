@@ -6,7 +6,7 @@ description: An experiment investigating the calibration of Opus 4.8 — a front
 
 ## Introduction
 
-A paper from 1982[^1] describes a series of estimation questions given to a group of individuals and asking for ranges with a given confidence level. On average answers given with confidence 98% were 43% of the time outside the range — humans tend to be greatly overconfident. I applied a similar experiment to **Opus 4.8** expecting a similar behavior in a modern LLM model. The model however is surprisingly well calibrated (with some exceptions) under questions which it does not know the answer to and questions which may be half known to it.
+A paper from 1982[^1] describes a series of estimation questions given to a group of individuals and asking for ranges with a given confidence level. On average answers given with confidence 98% were 43% of the time outside the range — humans tend to be greatly overconfident. Calibration is a measure of how accurately the confidence of an estimation matches its accuracy. I applied a similar experiment to **Opus 4.8** expecting a comparable behavior in a modern LLM model. The model however is surprisingly well calibrated (with some exceptions) under questions which it does not know the answer to and questions which may be half known to it.
 ## Setting
 
 Mimicking the experiment performed with humans[^1] the model is tested in a similar setting. The questions are of the form (though a little bit more difficult):
