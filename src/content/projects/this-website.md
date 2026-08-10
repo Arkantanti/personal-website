@@ -2,6 +2,7 @@
 title: This website
 period: aug 2026
 date: 2026-08-07
+status: finished
 links:
   - label: github
     url: https://github.com/Arkantanti/personal-website

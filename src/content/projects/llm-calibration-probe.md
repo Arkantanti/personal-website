@@ -2,9 +2,11 @@
 title: LLM calibration probe
 period: aug 2026
 date: 2026-08-08
-status: ongoing, blog writeup remaining
+status: finished
 placeholder: false
 links:
+  - label: blog
+    url: /blog/on-calibration-of-opus48/
   - label: github
     url: https://github.com/Arkantanti/calibration-probe
 ---
