@@ -15,6 +15,10 @@ const { Content } = await render(current);
 
 const fmtLong = (d: Date) =>
   d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }).toLowerCase();
+
+// Respect the configured base (BASE_URL ends with "/") so archive links work
+// under a subpath preview as well as at the site root.
+const base = import.meta.env.BASE_URL;
 ---
 
 <Base title="/now — Jakub Pieczonka" description="What Jakub Pieczonka is doing right now.">
@@ -40,7 +44,7 @@ const fmtLong = (d: Date) =>
             {past.map((e) => (
               <li class="sidebar-item">
                 <span class="sidebar-node" aria-hidden="true" />
-                <a class="mono-label sidebar-link" href={`/now/${e.id}/`}>
+                <a class="mono-label sidebar-link" href={`${base}now/${e.id}/`}>
                   {fmtLong(e.data.date)}
                 </a>
               </li>

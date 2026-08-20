@@ -8,18 +8,25 @@ export async function getStaticPaths() {
   const entries = (await getCollection('now')).sort(
     (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
   );
-  // Same archive rail as /now, minus whichever entry this page is showing —
-  // so every snapshot can reach every other one.
+  // The archive rail is identical on every page: all entries EXCEPT the
+  // newest, which is "current" (reached via the `current →` link), not
+  // archive. The viewed entry stays in the rail, marked as chosen.
+  const archive = entries.slice(1);
+  const newestId = entries[0]?.id;
   return entries.map((entry) => ({
     params: { slug: entry.id },
-    props: { entry, archive: entries.filter((e) => e.id !== entry.id) },
+    props: { entry, archive, isCurrent: entry.id === newestId },
   }));
 }
 
-const { entry, archive } = Astro.props;
+const { entry, archive, isCurrent } = Astro.props;
 const { Content } = await render(entry);
 const fmtLong = (d: Date) =>
   d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }).toLowerCase();
+
+// Respect the configured base (BASE_URL ends with "/") so links work under a
+// subpath preview as well as at the site root.
+const base = import.meta.env.BASE_URL;
 ---
 
 <Base
@@ -30,7 +37,13 @@ const fmtLong = (d: Date) =>
     <article class="now-main now-past">
       <h1 class="page-title">/now</h1>
       <p class="now-meta mono-label">
-        snapshot from {fmtLong(entry.data.date)} · <a href="/now/">current →</a>
+        snapshot from {fmtLong(entry.data.date)}
+        {!isCurrent && (
+          <>
+            {' · '}
+            <a href={`${base}now/`}>current →</a>
+          </>
+        )}
       </p>
       {entry.data.placeholder && <p class="mono-label ph">[placeholder entry — never ships]</p>}
       <div class="prose now-prose">
@@ -44,14 +57,23 @@ const fmtLong = (d: Date) =>
         <aside class="now-sidebar">
           <h2 class="mono-label sidebar-title">archive</h2>
           <ul class="sidebar-list">
-            {archive.map((e) => (
-              <li class="sidebar-item">
-                <span class="sidebar-node" aria-hidden="true" />
-                <a class="mono-label sidebar-link" href={`/now/${e.id}/`}>
-                  {fmtLong(e.data.date)}
-                </a>
-              </li>
-            ))}
+            {archive.map((e) => {
+              const active = e.id === entry.id;
+              return (
+                <li class:list={['sidebar-item', { 'is-active': active }]}>
+                  <span class="sidebar-node" aria-hidden="true" />
+                  {active ? (
+                    <span class="mono-label sidebar-link is-current" aria-current="page">
+                      {fmtLong(e.data.date)}
+                    </span>
+                  ) : (
+                    <a class="mono-label sidebar-link" href={`${base}now/${e.id}/`}>
+                      {fmtLong(e.data.date)}
+                    </a>
+                  )}
+                </li>
+              );
+            })}
           </ul>
         </aside>
       )
@@ -161,7 +183,18 @@ const fmtLong = (d: Date) =>
     text-decoration: none;
     transition: color var(--dur-fast) var(--ease-out);
   }
-  .sidebar-link:hover {
+  a.sidebar-link:hover {
     color: var(--color-accent);
+  }
+  /* The snapshot you're currently viewing: stays in the rail, marked as
+     chosen — filled node + accent text, no link to itself. */
+  .sidebar-item.is-active .sidebar-node {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+  .sidebar-link.is-current {
+    color: var(--color-accent);
+    font-weight: var(--display-weight);
+    cursor: default;
   }
 </style>
