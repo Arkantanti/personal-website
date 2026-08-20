@@ -5,11 +5,18 @@ import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 
 export async function getStaticPaths() {
-  const entries = await getCollection('now');
-  return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+  const entries = (await getCollection('now')).sort(
+    (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+  );
+  // Same archive rail as /now, minus whichever entry this page is showing —
+  // so every snapshot can reach every other one.
+  return entries.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry, archive: entries.filter((e) => e.id !== entry.id) },
+  }));
 }
 
-const { entry } = Astro.props;
+const { entry, archive } = Astro.props;
 const { Content } = await render(entry);
 const fmtLong = (d: Date) =>
   d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }).toLowerCase();
@@ -19,22 +26,56 @@ const fmtLong = (d: Date) =>
   title={`/now, ${fmtLong(entry.data.date)} — Jakub Pieczonka`}
   description={entry.data.tagline ?? `What Jakub was doing on ${fmtLong(entry.data.date)}.`}
 >
-  <article class="now-past">
-    <h1 class="page-title">/now</h1>
-    <p class="now-meta mono-label">
-      snapshot from {fmtLong(entry.data.date)} · <a href="/now/">current →</a>
-    </p>
-    {entry.data.placeholder && <p class="mono-label ph">[placeholder entry — never ships]</p>}
-    <div class="prose now-prose">
-      <Content />
-    </div>
-    {entry.data.signoff && <p class="now-signoff">— {entry.data.signoff}</p>}
-  </article>
+  <div class:list={['now-layout', { 'has-sidebar': archive.length > 0 }]}>
+    <article class="now-main now-past">
+      <h1 class="page-title">/now</h1>
+      <p class="now-meta mono-label">
+        snapshot from {fmtLong(entry.data.date)} · <a href="/now/">current →</a>
+      </p>
+      {entry.data.placeholder && <p class="mono-label ph">[placeholder entry — never ships]</p>}
+      <div class="prose now-prose">
+        <Content />
+      </div>
+      {entry.data.signoff && <p class="now-signoff">— {entry.data.signoff}</p>}
+    </article>
+
+    {
+      archive.length > 0 && (
+        <aside class="now-sidebar">
+          <h2 class="mono-label sidebar-title">archive</h2>
+          <ul class="sidebar-list">
+            {archive.map((e) => (
+              <li class="sidebar-item">
+                <span class="sidebar-node" aria-hidden="true" />
+                <a class="mono-label sidebar-link" href={`/now/${e.id}/`}>
+                  {fmtLong(e.data.date)}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </aside>
+      )
+    }
+  </div>
 </Base>
 
 <style>
-  .now-past {
+  /* Same 2:1 layout + archive rail as /now, so the sidebar is present on
+     every snapshot (collapses below the entry on narrow screens). */
+  .now-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-2xl);
     margin-top: var(--space-l);
+  }
+  @media (min-width: 48rem) {
+    .now-layout.has-sidebar {
+      grid-template-columns: 2fr 1fr;
+      gap: var(--space-2xl);
+    }
+  }
+  .now-past {
+    margin-top: 0;
   }
   .page-title {
     font-size: var(--step-4);
@@ -69,5 +110,58 @@ const fmtLong = (d: Date) =>
     margin: var(--space-l) 0 0;
     font-style: italic;
     color: var(--color-muted);
+  }
+
+  .now-sidebar {
+    border-left: 1px solid var(--color-border);
+    padding-left: var(--space-m);
+  }
+  @media (max-width: 47.999rem) {
+    .now-sidebar {
+      border-left: none;
+      border-top: 1px solid var(--color-border);
+      padding-left: 0;
+      padding-top: var(--space-m);
+    }
+    .sidebar-node {
+      display: none;
+    }
+  }
+  .sidebar-title {
+    margin: 0 0 var(--space-s);
+  }
+  .sidebar-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+  }
+  .sidebar-item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
+  }
+  .sidebar-node {
+    position: absolute;
+    left: calc(-1 * var(--space-m) - 1.5px);
+    top: 0.4rem;
+    width: var(--space-3xs);
+    height: var(--space-3xs);
+    border-radius: var(--radius-full);
+    background: var(--color-bg);
+    border: 2px solid var(--color-muted);
+  }
+  .sidebar-item:hover .sidebar-node {
+    border-color: var(--color-accent);
+  }
+  .sidebar-link {
+    text-decoration: none;
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+  .sidebar-link:hover {
+    color: var(--color-accent);
   }
 </style>
