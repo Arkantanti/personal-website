@@ -26,7 +26,10 @@ ask which wins.
   Blog ✓ (+ tables/images/captions/LaTeX pipeline), Projects ✓ (one spine,
   optional status, links field), /now + archive ✓ (in review). Content =
   Markdown collections in src/content/{blog,projects,now}; Home tiles show
-  live data. Outstanding before launch: owner's real bio/resume.pdf/links,
+  live data. Projects: `archived` is the highlight switch — non-archived =
+  "featured" (Home tile shows "{N} featured", gold nodes); archived fold
+  behind the "all projects (N)" expander with muted nodes (renamed from
+  "ongoing" 2026-08-23). Outstanding before launch: owner's real bio/resume.pdf/links,
   prune placeholders, Phase 4 (a11y, SEO/meta, RSS, favicon, 404).
 - Tech note: Astro 5 scaffolded (plain CSS tokens; Tailwind deferred to
   Phase 3 if still wanted — tokens.css is the contract either way).

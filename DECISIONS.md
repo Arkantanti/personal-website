@@ -238,7 +238,10 @@ owner sign-off: "okay phase over")
   frontmatter field and it doesn't render; use only when it says
   something dates/description don't ("writeup pending", "seeking
   collaborators"). Demo: "This website" has none.
-- Home projects tile LIVE: latest title + ongoing count.
+- Home projects tile LIVE: featured count (= non-archived projects).
+  Renamed from "ongoing count" 2026-08-23 — `archived` is the highlight
+  switch, "featured" = non-archived. Projects-page expander summary is
+  "all projects (N)".
 
 ### Step 6 — CONTACT PAGE (owner changed Phase-0 decision 2026-08-07)
 - Contact is now a real page /contact/ (was: folded into Home only).
